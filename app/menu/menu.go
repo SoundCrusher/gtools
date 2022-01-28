@@ -3,6 +3,7 @@ package menu
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/theme"
+	"gtools/app/vars"
 	"log"
 )
 
@@ -18,21 +19,18 @@ func SetMenu(a fyne.App, window fyne.Window) {
 			log.Println("Help -> Documents")
 		}))
 
-	// Setting -> Theme
-	var light *fyne.MenuItem
-	var dark *fyne.MenuItem
-	dark = fyne.NewMenuItem("Dark", func() {
+	vars.Dark = fyne.NewMenuItem("Dark", func() {
 		a.Settings().SetTheme(theme.DarkTheme())
-		dark.Checked = true
-		light.Checked = false
+		vars.Dark.Checked = true
+		vars.Light.Checked = false
 	})
-	light = fyne.NewMenuItem("Light", func() {
+	vars.Light = fyne.NewMenuItem("Light", func() {
 		a.Settings().SetTheme(theme.LightTheme())
-		light.Checked = true
-		dark.Checked = false
+		vars.Light.Checked = true
+		vars.Dark.Checked = false
 	})
 	themeItem := fyne.NewMenuItem("Theme", func() {})
-	themeItem.ChildMenu = fyne.NewMenu("", dark, light)
+	themeItem.ChildMenu = fyne.NewMenu("", vars.Dark, vars.Light)
 
 	// Help -> 关于
 	about := fyne.NewMenuItem("About", func() {})
@@ -41,6 +39,6 @@ func SetMenu(a fyne.App, window fyne.Window) {
 	settings := fyne.NewMenu("Setting", themeItem)
 	helps := fyne.NewMenu("Help", help, about)
 
-	light.Action()
+	vars.Light.Action()
 	window.SetMainMenu(fyne.NewMainMenu(settings, helps))
 }

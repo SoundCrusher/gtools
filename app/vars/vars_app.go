@@ -7,6 +7,8 @@ import (
 
 var (
 	TopWindow fyne.Window
+	Light     *fyne.MenuItem
+	Dark      *fyne.MenuItem
 )
 
 var (

@@ -20,8 +20,7 @@ var (
 
 	// TreeNodeMappings defines the metadata for each tutorial
 	TreeNodeMappings = map[string]TreeNode{
-		"Curl": {"Curl", "Can Reformat Your Curl Code", feature.MakeCurlBorder},
-		"More": {"More", "See more...", feature.MakeBoxLayout,
-		},
+		"Curl": {"Curl", "格式化你的 cURL 命令", feature.MakeCurlBorder},
+		"More": {"More", "See more...", feature.MakeBoxLayout},
 	}
 )

@@ -34,13 +34,14 @@ func (c *Curl) ToString() string {
 func MakeCurlBorder(win fyne.Window) fyne.CanvasObject {
 	left := widget.NewMultiLineEntry()
 	left.Wrapping = fyne.TextWrapWord
-	left.SetPlaceHolder("Paste your curl command here")
+	left.SetPlaceHolder("粘贴你的 curl 命令到这里...")
 
 	button := widget.NewButton("Click me.", func() {
 		log.Printf("点击按钮, 输入的文字为: \n%s", left.Text)
 		curl, err := matchCurl(left.Text)
 		if err != nil {
-			dialog.ShowInformation("提示", err.Error(), win)
+			information := dialog.NewInformation("提示", err.Error(), win)
+			information.Show()
 		} else {
 			left.Text = curl
 			left.Refresh()
