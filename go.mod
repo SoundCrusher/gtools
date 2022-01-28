@@ -4,6 +4,10 @@ go 1.17
 
 require (
 	fyne.io/fyne/v2 v2.1.2
+	github.com/flopp/go-findfont v0.1.0
+)
+
+require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fredbi/uri v0.0.0-20181227131451-3dcfdacbaaf3 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
