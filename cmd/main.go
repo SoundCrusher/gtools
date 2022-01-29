@@ -28,6 +28,7 @@ func main() {
 
 	// 菜单栏
 	menu.SetMenu(a, window)
+
 	// 内容
 	content.SetContent(a, window)
 
