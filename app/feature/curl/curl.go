@@ -1,4 +1,4 @@
-package feature
+package curl
 
 import (
 	"fmt"
@@ -16,6 +16,14 @@ import (
 	"gtools/app/vars"
 )
 
+type Formatter struct {
+	fyne.Window
+
+	data    *Curl
+	content *widget.Entry
+	button  *widget.Button
+}
+
 type Curl struct {
 	req         string
 	options     []string
@@ -24,33 +32,45 @@ type Curl struct {
 	data        string
 }
 
-func (c *Curl) ToString() string {
+func NewFormatter() *Formatter {
+	// 只初始化组件，等 app 运行后，才做其他处理，不然会 panic
+	f := &Formatter{}
+	// 内容框
+	f.content = widget.NewMultiLineEntry()
+	// 按钮
+	f.button = widget.NewButton("Click me.", f.clickFunc)
+
+	return f
+}
+
+func (f *Formatter) clickFunc() {
+	log.Printf("点击按钮, 输入的文字为: \n%s", f.content.Text)
+	curl, err := matchCurl(f.content.Text)
+	if err != nil {
+		information := dialog.NewInformation("提示", err.Error(), f.Window)
+		information.Show()
+	} else {
+		f.content.Text = curl
+		f.content.Refresh()
+	}
+}
+
+func (f *Formatter) NewBorder(win fyne.Window) fyne.CanvasObject {
+	f.Window = win
+
+	f.content.Wrapping = fyne.TextWrapWord
+	f.content.SetPlaceHolder("粘贴你的 curl 命令到这里...")
+
+	top := container.New(layout.NewGridWrapLayout(fyne.NewSize(720, 370)), f.content)
+	bottom := container.New(layout.NewCenterLayout(), f.button)
+	return container.NewVBox(top, bottom)
+}
+
+func (c *Curl) toString() string {
 	options := strings.Join(c.options, " ")
 	longOptions := strings.Join(c.longOptions, "\\\n\t\t")
 	headers := strings.Join(c.header, "\\\n\t\t")
 	return fmt.Sprintf("curl %s %s \\\n\t\t%s \\\n\t\t%s", options, c.req, headers, longOptions)
-}
-
-func MakeCurlBorder(win fyne.Window) fyne.CanvasObject {
-	left := widget.NewMultiLineEntry()
-	left.Wrapping = fyne.TextWrapWord
-	left.SetPlaceHolder("粘贴你的 curl 命令到这里...")
-
-	button := widget.NewButton("Click me.", func() {
-		log.Printf("点击按钮, 输入的文字为: \n%s", left.Text)
-		curl, err := matchCurl(left.Text)
-		if err != nil {
-			information := dialog.NewInformation("提示", err.Error(), win)
-			information.Show()
-		} else {
-			left.Text = curl
-			left.Refresh()
-		}
-	})
-
-	f := container.New(layout.NewGridWrapLayout(fyne.NewSize(720, 370)), left)
-	f2 := container.New(layout.NewCenterLayout(), button)
-	return container.NewVBox(f, f2)
 }
 
 func matchCurl(curlStr string) (string, error) {
@@ -118,5 +138,5 @@ func matchCurl(curlStr string) (string, error) {
 	}
 	curl.req = req.FindAllString(curlStr, -1)[0]
 	// 取 url
-	return curl.ToString(), nil
+	return curl.toString(), nil
 }

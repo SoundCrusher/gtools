@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -48,7 +47,7 @@ func init() {
 			break
 		}
 	}
-	fmt.Println("=============")
+	log.Println("=============")
 }
 
 func LogLifecycle(a fyne.App) {
