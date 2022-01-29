@@ -25,31 +25,28 @@
 
 ```text
 .
+├── LICENSE
 ├── README.md
 ├── app
 │   ├── content
-│   │   ├── navigate.go
-│   │   └── panel.go
 │   ├── data
-│   │   └── tree_data.go
 │   ├── feature
-│   │   ├── curl.go
-│   │   ├── curl_test.go
+│   │   ├── convert
+│   │   ├── curl
+│   │   ├── interface.go
 │   │   └── more.go
 │   ├── menu
 │   │   └── menu.go
-│   ├── resource
 │   └── vars
-│       ├── cons_app.go
-│       └── vars_app.go
 ├── cmd
+│   ├── Makefile.mk
 │   └── main.go
 ├── dist
-│   └── gtools.app
 ├── example
 │   └── main_demo.go
 ├── go.mod
-└── go.sum
+├── go.sum
+└── static
 ```
 
 # Run
